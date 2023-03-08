@@ -1,0 +1,28 @@
+z1
+man printf 1
+z2
+which (nazwa)
+z3
+find /sciezka -name '*nazwa szukana*' -print
+z4
+mkdir cw1
+cd cw1
+ls
+echo abc > plik.txt
+ls
+mv plik.txt plik2.txt
+ls
+mkdir test
+cp plik2.txt ./test
+cd test
+ls
+cd /home/student
+rm -r cw1
+z5
+1 tak
+2 nie
+3 nie
+4 tak
+
+
+
