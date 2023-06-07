@@ -1,28 +1,21 @@
-z1
-man printf 1
-z2
-which (nazwa)
-z3
-find /sciezka -name '*nazwa szukana*' -print
-z4
-mkdir cw1
-cd cw1
-ls
-echo abc > plik.txt
-ls
-mv plik.txt plik2.txt
-ls
-mkdir test
-cp plik2.txt ./test
-cd test
-ls
-cd /home/student
-rm -r cw1
-z5
-1 tak
-2 nie
-3 nie
-4 tak
+#include <signal.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <stdbool.h>
 
-
-
+char napisy[3][90]={"Ha! Ha! Ha! To tylko sygnal powierzchowny!\n","Tylko proces %d smieje sie sygnalowi %d prosto w twarz!\>
+int nr_napisu=0;
+void obsluga_sig_int(int sig)
+{
+        printf(napisy[nr_napisu], getpid(), sig);
+        nr_napisu=((nr_napisu + 1) % 3);
+}
+int main(int argc, char** argv)
+{
+        signal(SIGINT, obsluga_sig_int);
+        while (true) 
+        {
+                printf("czesc tu proces: %d\n", getpid());
+                sleep(1);
+        }
+        return 0 ;
