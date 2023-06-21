@@ -1,0 +1,17 @@
+#include <stdio.h>
+#include <unistd.h>
+
+int main() {
+    pid_t pid = fork(); // Tworzenie duplikatu procesu
+
+    if (pid == -1) {
+        printf("Błąd podczas tworzenia procesu potomnego.\n");
+        return 1;
+    } else if (pid == 0) {
+        printf("Jestem procesem potomnym. Mój PID: %d. PID rodzica: %d.\n", getpid(), getppid());
+    } else {
+        printf("Jestem procesem rodzicem. Mój PID: %d. PID potomka: %d.\n", getpid(), pid);
+    }
+
+    return 0;
+}

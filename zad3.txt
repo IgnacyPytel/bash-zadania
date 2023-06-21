@@ -1,0 +1,25 @@
+#include <stdio.h>
+#include <unistd.h>
+
+int main() {
+    pid_t pid = fork(); // Tworzenie procesu
+
+    if (pid == -1) {
+        printf("Błąd podczas tworzenia procesu potomnego.\n");
+        return 1;
+    } else if (pid == 0) {
+        chdir("/tmp"); // Zmiana bieżącego katalogu dla procesu potomnego
+
+        char cwd[256];
+        if (getcwd(cwd, sizeof(cwd)) != NULL) {
+            printf("Ścieżka absolutna do procesu potomnego: %s\n", cwd);
+        } else {
+            printf("Błąd podczas pobierania bieżącego katalogu.\n");
+        }
+    } else {
+        // Kod procesu rodzica
+        // Można dodać tutaj dodatkowe instrukcje, jeśli są potrzebne
+    }
+
+    return 0;
+}

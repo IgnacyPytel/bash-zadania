@@ -1,0 +1,19 @@
+#include <stdio.h>
+#include <signal.h>
+#include <unistd.h>
+
+void handler(int sig) {
+    printf("Sygnał SIGINT zablokowany.\n");
+}
+
+int main() {
+    signal(SIGINT, handler); // Ustawienie obsługi sygnału SIGINT
+
+    printf("Oczekiwanie przez 5 sekund...\n");
+    sleep(5);
+
+    signal(SIGINT, SIG_DFL); // Przywrócenie domyślnej obsługi sygnału SIGINT
+    printf("Zakończono blokowanie sygnału SIGINT.\n");
+
+    return 0;
+}

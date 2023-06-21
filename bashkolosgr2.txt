@@ -1,0 +1,53 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <signal.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+
+void handle_signal(int signum) {
+    printf("Zablokowano sygnał SIGINT\n");
+}
+
+void print_ids() {
+    pid_t pid = getpid();
+    pid_t ppid = getppid();
+    printf("ID potomka: %d\n", pid);
+    printf("ID rodzica: %d\n", ppid);
+}
+
+void modify_process() {
+    char path[256];
+    if (getcwd(path, sizeof(path)) != NULL) {
+        printf("Ścieżka absolutna do tego procesu: %s\n", path);
+    } else {
+        perror("Błąd przy pobieraniu ścieżki");
+        exit(1);
+    }
+}
+
+int main() {
+    signal(SIGINT, handle_signal);
+
+    // Czekaj 5 sekund
+    sleep(5);
+
+    // Przywróć domyślną obsługę sygnału SIGINT
+    signal(SIGINT, SIG_DFL);
+
+    // Tworzenie duplikatu procesu
+    pid_t child_pid = fork();
+    if (child_pid < 0) {
+        perror("Błąd przy tworzeniu potomka");
+        exit(1);
+    } else if (child_pid == 0) {
+        // Proces potomny
+        print_ids();
+    } else {
+        // Proces rodzicielski
+        wait(NULL);
+        modify_process();
+    }
+
+    return 0;
+}
