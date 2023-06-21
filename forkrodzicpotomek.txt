@@ -1,0 +1,39 @@
+#include <sys/types.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+
+const int DL_NAPISU=80;
+
+int main(int argc, char** argv)
+{
+    pid_t pid_potomka,pid_moj,pid_rodzica;
+    char komunikat[DL_NAPISU];
+    int powtorzen;
+    printf("Na razie działa jeden proces\n");
+    pid_potomka = fork();
+    pid_rodzica=getppid();
+    pid_moj=getpid();
+    switch (pid_potomka)
+    {
+        case -1:
+            perror("rozwidlenie procesu nie powiodło się");
+            exit(1);
+        case 0:
+            snprintf(komunikat,DL_NAPISU,"Jestem potomkiem, PID potomka = %d, moj PID=%d a PID mojego rodzica =%d",
+                    pid_potomka,pid_moj,pid_rodzica);
+ powtorzen = 1;
+            break;
+        default:
+            snprintf(komunikat,DL_NAPISU,"Jestem rodzicem, PID potomka = %d, moj PID=%d a PID mojego rodzica =%d",
+                    pid_potomka,pid_moj,pid_rodzica);
+            powtorzen =3;
+            break;
+    }
+    for (; powtorzen > 0; powtorzen--)
+    {
+        puts(komunikat);
+        sleep(1);
+    }
+}
