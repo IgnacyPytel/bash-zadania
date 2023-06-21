@@ -1,0 +1,34 @@
+#include <stdio.h>
+#include <signal.h>
+
+int count = 0;
+
+void handleSignal(int signal)
+{
+    if (signal == SIGINT)
+    {
+        count++;
+        if (count == 2)
+        {
+            printf("Ignorowanie podwójnego Ctrl+C.\n");
+            return;
+        }
+        else if (count == 3)
+        {
+            printf("Już kończę.\n");
+            exit(0);
+        }
+    }
+}
+
+int main()
+{
+    signal(SIGINT, handleSignal);
+
+    while (1)
+    {
+        // Pętla nieskończona
+    }
+
+    return 0;
+}
